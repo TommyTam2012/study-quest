@@ -1,5 +1,5 @@
 // Study Quest: Stage 1 & 2 - Kaboom.js Game
-// Updated with Stage 2: Distraction Dungeon
+// Corrected with Ground in Stage 1
 
 kaboom({
   global: true,
@@ -20,7 +20,7 @@ let hasFriend = false;
 scene("stage1", () => {
   const player = add([
     sprite("player"),
-    pos(50, 200),
+    pos(50, height() - 100),
     area(),
     body(),
   ]);
@@ -34,6 +34,15 @@ scene("stage1", () => {
   add([text("Rescue Friend\n+10 Power", { size: 12 }), pos(310, 110)]);
 
   const powerText = add([text("Power: 0", { size: 18 }), pos(20, 300)]);
+
+  // Stage 1 Ground Platform
+  add([
+    rect(width(), 48),
+    pos(0, height() - 48),
+    area(),
+    solid(),
+    color(120, 120, 120),
+  ]);
 
   player.onUpdate(() => {
     if (player.pos.x > 500) player.move(0, 0);
@@ -75,8 +84,14 @@ scene("stage2", () => {
 
   const healthText = add([text("Health: 3", { size: 18 }), pos(20, 20)]);
 
-  // Platforms
-  add([rect(width(), 48), pos(0, height() - 48), area(), solid(), color(100, 100, 100)]);
+  // Stage 2 Platform
+  add([
+    rect(width(), 48),
+    pos(0, height() - 48),
+    area(),
+    solid(),
+    color(100, 100, 100)
+  ]);
 
   // Goblin Enemy
   const goblin = add([
@@ -96,7 +111,7 @@ scene("stage2", () => {
   });
   goblin.moveDir = LEFT;
 
-  // Focus Boost
+  // Focus Boost Item
   add([
     sprite("boost"),
     pos(500, height() - 80),
@@ -108,13 +123,13 @@ scene("stage2", () => {
     health--;
     healthText.text = `Health: ${health}`;
     if (health <= 0) {
-  add([
-    text("Game Over!", { size: 32 }),
-    pos(center()),
-    anchor("center")
-  ]); // ✅ Final corrected line
-  destroy(player);
-}
+      add([
+        text("Game Over!", { size: 32 }),
+        pos(center()),
+        anchor("center")
+      ]);
+      destroy(player);
+    }
   });
 
   player.onCollide("boost", (b) => {
@@ -123,7 +138,7 @@ scene("stage2", () => {
     healthText.text = `Health: ${health}`;
   });
 
-  // Friend Bonus
+  // Friend joins if rescued
   if (hasFriend) {
     add([sprite("friend"), pos(50, height() - 90), area()]);
     add([text("Your friend gives you courage!", { size: 14 }), pos(200, 40)]);
@@ -136,4 +151,5 @@ scene("stage2", () => {
   });
 });
 
+// Start Game
 go("stage1");
