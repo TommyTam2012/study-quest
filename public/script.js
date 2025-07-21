@@ -108,9 +108,13 @@ scene("stage2", () => {
     health--;
     healthText.text = `Health: ${health}`;
     if (health <= 0) {
-      add([text("Game Over!", { size: 32 }), pos(center()), anchor("center"))]);
-      destroy(player);
-    }
+  add([
+    text("Game Over!", { size: 32 }),
+    pos(center()),
+    anchor("center")
+  ]); // ✅ Final corrected line
+  destroy(player);
+}
   });
 
   player.onCollide("boost", (b) => {
