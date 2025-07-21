@@ -1,6 +1,16 @@
-// Study Quest: Stage 1 & 2 - Kaboom.js Game (Fixed Solid Error)
+// Study Quest - Final Stable Build (Kaboom ES Module + Solid Fix)
 
-kaboom(); // Uses all default plugins: area, body, solid, etc.
+// Load kaboom as a module and register plugins
+import kaboom, { solid } from "https://unpkg.com/kaboom@next/dist/kaboom.mjs";
+
+// Init kaboom
+kaboom({
+  plugins: [solid()],
+  global: true,
+  fullscreen: true,
+  scale: 1,
+  clearColor: [0.8, 0.9, 1, 1],
+});
 
 // Load sprites
 loadSprite("player", "https://i.imgur.com/Wb1qfhK.png");
@@ -133,7 +143,6 @@ scene("stage2", () => {
     healthText.text = `Health: ${health}`;
   });
 
-  // Friend bonus
   if (hasFriend) {
     add([sprite("friend"), pos(50, height() - 90), area()]);
     add([text("Your friend gives you courage!", { size: 14 }), pos(200, 40)]);
@@ -146,5 +155,4 @@ scene("stage2", () => {
   });
 });
 
-// Launch game
 go("stage1");
