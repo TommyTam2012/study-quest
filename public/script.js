@@ -1,12 +1,6 @@
-// Study Quest: Stage 1 & 2 - Kaboom.js Game
-// Corrected with Ground in Stage 1
+// Study Quest: Stage 1 & 2 - Kaboom.js Game (Fixed Solid Error)
 
-kaboom({
-  global: true,
-  fullscreen: true,
-  scale: 1,
-  clearColor: [0.8, 0.9, 1, 1],
-});
+kaboom(); // Uses all default plugins: area, body, solid, etc.
 
 // Load sprites
 loadSprite("player", "https://i.imgur.com/Wb1qfhK.png");
@@ -35,7 +29,7 @@ scene("stage1", () => {
 
   const powerText = add([text("Power: 0", { size: 18 }), pos(20, 300)]);
 
-  // Stage 1 Ground Platform
+  // Ground platform for Stage 1
   add([
     rect(width(), 48),
     pos(0, height() - 48),
@@ -84,7 +78,7 @@ scene("stage2", () => {
 
   const healthText = add([text("Health: 3", { size: 18 }), pos(20, 20)]);
 
-  // Stage 2 Platform
+  // Ground platform
   add([
     rect(width(), 48),
     pos(0, height() - 48),
@@ -93,7 +87,7 @@ scene("stage2", () => {
     color(100, 100, 100)
   ]);
 
-  // Goblin Enemy
+  // Goblin enemy
   const goblin = add([
     sprite("goblin"),
     pos(300, height() - 80),
@@ -103,15 +97,16 @@ scene("stage2", () => {
     "enemy"
   ]);
 
+  goblin.moveDir = LEFT;
+
   goblin.onUpdate(() => {
     if (goblin.pos.x <= 100 || goblin.pos.x >= width() - 100) {
       goblin.move(goblin.moveDir === LEFT ? RIGHT : LEFT, 100);
       goblin.moveDir = goblin.moveDir === LEFT ? RIGHT : LEFT;
     }
   });
-  goblin.moveDir = LEFT;
 
-  // Focus Boost Item
+  // Focus Boost
   add([
     sprite("boost"),
     pos(500, height() - 80),
@@ -138,7 +133,7 @@ scene("stage2", () => {
     healthText.text = `Health: ${health}`;
   });
 
-  // Friend joins if rescued
+  // Friend bonus
   if (hasFriend) {
     add([sprite("friend"), pos(50, height() - 90), area()]);
     add([text("Your friend gives you courage!", { size: 14 }), pos(200, 40)]);
@@ -151,5 +146,5 @@ scene("stage2", () => {
   });
 });
 
-// Start Game
+// Launch game
 go("stage1");
